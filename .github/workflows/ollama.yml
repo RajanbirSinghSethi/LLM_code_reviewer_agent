@@ -1,0 +1,19 @@
+# This is a basic workflow to help you get started with Actions
+
+name: ollama
+
+'on':
+  workflow_dispatch:
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install ollama
+      run: curl -fsSL https://ollama.com/install.sh | sh
+    - name: Run ollama
+      run: |
+        ollama serve &
+        ollama pull mistral
+    - name: Call ollama API
+      run: |
+        curl -d '{"model": "mistral", "stream": false, "prompt":"Whatever I say, asnwer with Yes"}' http://localhost:11434/api/generate
